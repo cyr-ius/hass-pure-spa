@@ -152,7 +152,7 @@ async def test_fahrenheit_and_error(
     water = hass.states.get("sensor.pure_spa_water_temperature")
     assert water.attributes[ATTR_UNIT_OF_MEASUREMENT] == UnitOfTemperature.CELSIUS
     assert float(water.state) == 30
-    assert hass.states.get("sensor.pure_spa_error").state == "E90"
+    assert hass.states.get("sensor.pure_spa_error").state == "e90"
 
 
 async def test_sensors(

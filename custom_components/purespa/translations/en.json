@@ -68,16 +68,16 @@
         "name": "Error",
         "state": {
           "none": "None",
-          "E81": "E81 - Transmission signal failure",
-          "E90": "E90 - Low or no water flow",
-          "E91": "E91 - Low salt level",
-          "E92": "E92 - High salt level",
-          "E94": "E94 - Water temperature too low",
-          "E95": "E95 - Water temperature too high",
-          "E96": "E96 - Control base system error",
-          "E97": "E97 - Heater dry-fire protection",
-          "E99": "E99 - Damaged temperature sensor",
-          "END": "END - System stopped"
+          "e81": "E81 - Transmission signal failure",
+          "e90": "E90 - Low or no water flow",
+          "e91": "E91 - Low salt level",
+          "e92": "E92 - High salt level",
+          "e94": "E94 - Water temperature too low",
+          "e95": "E95 - Water temperature too high",
+          "e96": "E96 - Control base system error",
+          "e97": "E97 - Heater dry-fire protection",
+          "e99": "E99 - Damaged temperature sensor",
+          "end": "END - System stopped"
         }
       },
       "filter_timer": {
