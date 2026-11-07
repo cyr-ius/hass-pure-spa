@@ -15,10 +15,19 @@ dev = [
   "espspapy==1.1.0",
   "homeassistant",
   {include-group = "lint"},
+  {include-group = "test"},
+]
+test = [
+  "pytest-homeassistant-custom-component",
 ]
 
 [tool.uv]
 package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=custom_components.purespa --cov-report=term-missing --cov-fail-under=85"
 
 [tool.ruff]
 target-version = "py314"
