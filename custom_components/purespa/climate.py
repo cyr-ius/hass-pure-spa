@@ -48,7 +48,7 @@ class PureSpaClimate(PureSpaEntity, ClimateEntity):
         super().__init__(coordinator, "climate")
 
     @property
-    def temperature_unit(self) -> str:
+    def native_temperature_unit(self) -> str:
         """Return the unit used by the spa."""
         if self.coordinator.data.fahrenheit:
             return UnitOfTemperature.FAHRENHEIT
@@ -65,14 +65,32 @@ class PureSpaClimate(PureSpaEntity, ClimateEntity):
         return self.coordinator.data.temperature_range[1]
 
     @property
-    def current_temperature(self) -> float | None:
+    def native_current_temperature(self) -> float | None:
         """Return the water temperature."""
         return self.coordinator.data.current_temperature
 
     @property
-    def target_temperature(self) -> float | None:
+    def native_target_temperature(self) -> float | None:
         """Return the target temperature."""
         return self.coordinator.data.target_temperature
+
+    # Aliases for Home Assistant < 2026.11, which only reads the non-native
+    # names. From 2026.11 the native members win and no deprecation is logged.
+    # Remove once hacs.json requires 2026.11 or later.
+    @property
+    def temperature_unit(self) -> str:
+        """Return the unit used by the spa (Home Assistant < 2026.11)."""
+        return self.native_temperature_unit
+
+    @property
+    def current_temperature(self) -> float | None:
+        """Return the water temperature (Home Assistant < 2026.11)."""
+        return self.native_current_temperature
+
+    @property
+    def target_temperature(self) -> float | None:
+        """Return the target temperature (Home Assistant < 2026.11)."""
+        return self.native_target_temperature
 
     @property
     def hvac_mode(self) -> HVACMode:
