@@ -36,7 +36,7 @@
         },
         "data_description": {
           "ssid": "2.4 GHz network the spa must join.",
-          "bssid": "Optional. MAC address of the 2.4 GHz access point closest to the spa (aa:bb:cc:dd:ee:ff). Fill it in if pairing fails without it.",
+          "bssid": "MAC address of the 2.4 GHz radio of the access point the spa must join (aa:bb:cc:dd:ee:ff), not the 5 GHz one. Prefilled when Home Assistant is itself on 2.4 GHz Wi-Fi.",
           "local_ip": "Sent to the spa so that it can confirm the pairing."
         }
       }

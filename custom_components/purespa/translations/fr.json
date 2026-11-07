@@ -36,7 +36,7 @@
         },
         "data_description": {
           "ssid": "Réseau 2,4 GHz que le spa doit rejoindre.",
-          "bssid": "Facultatif. Adresse MAC du point d'accès 2,4 GHz le plus proche du spa (aa:bb:cc:dd:ee:ff). À renseigner si l'appairage échoue sans.",
+          "bssid": "Adresse MAC de la radio 2,4 GHz du point d'accès que le spa doit rejoindre (aa:bb:cc:dd:ee:ff), pas celle du 5 GHz. Préremplie si Home Assistant est lui-même connecté en Wi-Fi 2,4 GHz.",
           "local_ip": "Transmise au spa pour qu'il confirme l'appairage."
         }
       }

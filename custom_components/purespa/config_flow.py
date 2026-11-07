@@ -14,6 +14,7 @@ from espspapy import (
     SpaInfo,
     async_discover,
     async_pair,
+    get_current_bssid,
 )
 from espspapy.helpers import parse_bssid
 from homeassistant.components.network import async_get_source_ip
@@ -45,7 +46,7 @@ TITLE = "Pure spa"
 PAIR_SCHEMA = probatio.Schema(
     {
         probatio.Required(CONF_SSID): str,
-        probatio.Optional(CONF_BSSID): str,
+        probatio.Required(CONF_BSSID): str,
         probatio.Optional(CONF_PASSWORD, default=""): TextSelector(
             TextSelectorConfig(type=TextSelectorType.PASSWORD)
         ),
@@ -172,8 +173,7 @@ class PureSpaConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         if user_input is not None:
             try:
-                if bssid := user_input.get(CONF_BSSID):
-                    parse_bssid(bssid)
+                parse_bssid(user_input[CONF_BSSID])
             except ValueError:
                 errors[CONF_BSSID] = "invalid_bssid"
             else:
@@ -183,6 +183,7 @@ class PureSpaConfigFlow(ConfigFlow, domain=DOMAIN):
 
         suggested = user_input or {
             CONF_LOCAL_IP: await async_get_source_ip(self.hass),
+            CONF_BSSID: await self.hass.async_add_executor_job(get_current_bssid),
             **{k: v for k, v in self._pair_input.items() if k != CONF_PASSWORD},
         }
         return self.async_show_form(
@@ -198,7 +199,7 @@ class PureSpaConfigFlow(ConfigFlow, domain=DOMAIN):
                 data[CONF_SSID],
                 data.get(CONF_PASSWORD, ""),
                 data[CONF_LOCAL_IP],
-                bssid=data.get(CONF_BSSID) or None,
+                bssid=data[CONF_BSSID],
             )
         except (OSError, ValueError) as err:
             raise PairingError(str(err)) from err
