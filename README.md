@@ -54,7 +54,7 @@ Good to know:
 
 ### With HACS
 
-1. Add this repository to HACS as a custom repository (type *Integration*).
+1. Add this repository to HACS as a custom repository (type _Integration_).
 2. Install **Pure Spa**, then restart Home Assistant.
 3. Go to **Settings → Devices & services → Add integration** and search for
    **Pure Spa**.
