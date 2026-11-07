@@ -68,16 +68,16 @@
         "name": "Erreur",
         "state": {
           "none": "Aucune",
-          "E81": "E81 - Échec du signal de transmission",
-          "E90": "E90 - Débit d'eau faible ou nul",
-          "E91": "E91 - Niveau de sel faible",
-          "E92": "E92 - Niveau de sel élevé",
-          "E94": "E94 - Température de l'eau trop basse",
-          "E95": "E95 - Température de l'eau trop élevée",
-          "E96": "E96 - Erreur du système de la base",
-          "E97": "E97 - Protection contre la chauffe à sec",
-          "E99": "E99 - Sonde de température endommagée",
-          "END": "END - Système arrêté"
+          "e81": "E81 - Échec du signal de transmission",
+          "e90": "E90 - Débit d'eau faible ou nul",
+          "e91": "E91 - Niveau de sel faible",
+          "e92": "E92 - Niveau de sel élevé",
+          "e94": "E94 - Température de l'eau trop basse",
+          "e95": "E95 - Température de l'eau trop élevée",
+          "e96": "E96 - Erreur du système de la base",
+          "e97": "E97 - Protection contre la chauffe à sec",
+          "e99": "E99 - Sonde de température endommagée",
+          "end": "END - Système arrêté"
         }
       },
       "filter_timer": {

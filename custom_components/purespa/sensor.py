@@ -24,16 +24,16 @@ PARALLEL_UPDATES = 0
 
 ERROR_CODES = [
     "none",
-    "E81",
-    "E90",
-    "E91",
-    "E92",
-    "E94",
-    "E95",
-    "E96",
-    "E97",
-    "E99",
-    "END",
+    "e81",
+    "e90",
+    "e91",
+    "e92",
+    "e94",
+    "e95",
+    "e96",
+    "e97",
+    "e99",
+    "end",
 ]
 
 
@@ -56,7 +56,7 @@ SENSORS: tuple[PureSpaSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.ENUM,
         options=ERROR_CODES,
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda status: status.error_code or "none",
+        value_fn=lambda status: (status.error_code or "none").lower(),
     ),
     PureSpaSensorEntityDescription(
         key="filter_timer",
