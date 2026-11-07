@@ -11,34 +11,8 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:
-      - name: 📥 Checkout the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-
-      - name: Check manifest version matches tag
-        run: |
-          manifest_version=$(jq -r '.version' custom_components/purespa/manifest.json)
-          if [[ "$manifest_version" != "$GITHUB_REF_NAME" ]]; then
-            echo "::error file=custom_components/purespa/manifest.json::manifest version ($manifest_version) does not match tag ($GITHUB_REF_NAME)"
-            exit 1
-          fi
-
-      - name: Create Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          prerelease=()
-          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
-            prerelease=(--prerelease)
-          fi
-          gh release create "$GITHUB_REF_NAME" \
-            --repo "$GITHUB_REPOSITORY" \
-            --verify-tag \
-            --title "$GITHUB_REF_NAME" \
-            --generate-notes \
-            "${prerelease[@]}"
+    uses: cyr-ius/.github/.github/workflows/ha-release.yml@v1
+    with:
+      domain: "purespa"
