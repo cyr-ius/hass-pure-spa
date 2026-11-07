@@ -16,7 +16,7 @@
     "espspapy"
   ],
   "requirements": [
-    "espspapy==1.0.0"
+    "espspapy==1.1.0"
   ],
   "version": "0.1.0"
 }
