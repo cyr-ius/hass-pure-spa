@@ -1,0 +1,35 @@
+{
+  "entity": {
+    "sensor": {
+      "error": {
+        "default": "mdi:alert-circle-outline"
+      },
+      "filter_timer": {
+        "default": "mdi:timer-outline"
+      },
+      "sanitizer_timer": {
+        "default": "mdi:timer-outline"
+      },
+      "heater_timer": {
+        "default": "mdi:timer-outline"
+      }
+    },
+    "switch": {
+      "power": {
+        "default": "mdi:power"
+      },
+      "filter": {
+        "default": "mdi:air-filter"
+      },
+      "jets": {
+        "default": "mdi:waves"
+      },
+      "bubbles": {
+        "default": "mdi:chart-bubble"
+      },
+      "sanitizer": {
+        "default": "mdi:shield-check-outline"
+      }
+    }
+  }
+}

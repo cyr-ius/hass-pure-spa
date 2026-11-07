@@ -1,0 +1,119 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pure spa",
+        "description": "Comment voulez-vous ajouter le spa ?",
+        "menu_options": {
+          "discover": "Rechercher les spas du réseau local",
+          "manual": "Saisir l'adresse IP d'un spa déjà connecté au Wi-Fi",
+          "pair": "Connecter un nouveau spa au Wi-Fi (appairage)"
+        }
+      },
+      "discover": {
+        "title": "Spas trouvés",
+        "data": {
+          "host": "Spa"
+        }
+      },
+      "manual": {
+        "title": "Adresse IP du spa",
+        "data": {
+          "host": "Hôte"
+        },
+        "data_description": {
+          "host": "Adresse IP du spa sur le réseau local. Réservez-la dans le DHCP de votre box."
+        }
+      },
+      "pair": {
+        "title": "Appairage Wi-Fi",
+        "description": "Mettez le spa en mode appairage Wi-Fi avant de valider. Home Assistant doit être sur le même réseau que le point d'accès, en réseau hôte.",
+        "data": {
+          "ssid": "Réseau Wi-Fi (SSID)",
+          "bssid": "BSSID du point d'accès",
+          "password": "Mot de passe",
+          "local_ip": "Adresse IP de Home Assistant"
+        },
+        "data_description": {
+          "ssid": "Réseau 2,4 GHz que le spa doit rejoindre.",
+          "bssid": "Facultatif. Adresse MAC du point d'accès 2,4 GHz le plus proche du spa (aa:bb:cc:dd:ee:ff). À renseigner si l'appairage échoue sans.",
+          "local_ip": "Transmise au spa pour qu'il confirme l'appairage."
+        }
+      }
+    },
+    "progress": {
+      "pairing": "Envoi des paramètres Wi-Fi au spa. Cela peut prendre jusqu'à une minute."
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion",
+      "invalid_bssid": "BSSID invalide, format attendu aa:bb:cc:dd:ee:ff.",
+      "pairing_failed": "Le spa n'a pas répondu. Vérifiez le mode appairage, le BSSID et le mot de passe, puis réessayez."
+    },
+    "abort": {
+      "already_configured": "L'appareil est déjà configuré",
+      "no_devices_found": "Aucun appareil trouvé sur le réseau"
+    }
+  },
+  "entity": {
+    "climate": {
+      "spa": {
+        "name": "Spa"
+      }
+    },
+    "sensor": {
+      "water_temperature": {
+        "name": "Température de l'eau"
+      },
+      "error": {
+        "name": "Erreur",
+        "state": {
+          "none": "Aucune",
+          "E81": "E81 - Échec du signal de transmission",
+          "E90": "E90 - Débit d'eau faible ou nul",
+          "E91": "E91 - Niveau de sel faible",
+          "E92": "E92 - Niveau de sel élevé",
+          "E94": "E94 - Température de l'eau trop basse",
+          "E95": "E95 - Température de l'eau trop élevée",
+          "E96": "E96 - Erreur du système de la base",
+          "E97": "E97 - Protection contre la chauffe à sec",
+          "E99": "E99 - Sonde de température endommagée",
+          "END": "END - Système arrêté"
+        }
+      },
+      "filter_timer": {
+        "name": "Minuterie de filtration"
+      },
+      "sanitizer_timer": {
+        "name": "Minuterie de désinfection"
+      },
+      "heater_timer": {
+        "name": "Minuterie de chauffage"
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Alimentation"
+      },
+      "filter": {
+        "name": "Filtration"
+      },
+      "jets": {
+        "name": "Hydromassage"
+      },
+      "bubbles": {
+        "name": "Bulles"
+      },
+      "sanitizer": {
+        "name": "Désinfection"
+      }
+    }
+  },
+  "exceptions": {
+    "update_failed": {
+      "message": "Impossible de lire l'état du spa : {error}"
+    },
+    "command_failed": {
+      "message": "Le spa n'a pas exécuté la commande : {error}"
+    }
+  }
+}

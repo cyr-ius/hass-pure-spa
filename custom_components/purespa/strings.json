@@ -1,0 +1,119 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pure spa",
+        "description": "How do you want to add the spa?",
+        "menu_options": {
+          "discover": "Search the spas of the local network",
+          "manual": "Enter the IP address of a spa already on the Wi-Fi",
+          "pair": "Connect a new spa to the Wi-Fi (pairing)"
+        }
+      },
+      "discover": {
+        "title": "Spas found",
+        "data": {
+          "host": "Spa"
+        }
+      },
+      "manual": {
+        "title": "Spa IP address",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]"
+        },
+        "data_description": {
+          "host": "IP address of the spa on the local network. Reserve it in your router DHCP settings."
+        }
+      },
+      "pair": {
+        "title": "Wi-Fi pairing",
+        "description": "Put the spa in Wi-Fi pairing mode before submitting. Home Assistant must be on the same network as the access point, with host networking.",
+        "data": {
+          "ssid": "Wi-Fi network (SSID)",
+          "bssid": "Access point BSSID",
+          "password": "[%key:common::config_flow::data::password%]",
+          "local_ip": "Home Assistant IP address"
+        },
+        "data_description": {
+          "ssid": "2.4 GHz network the spa must join.",
+          "bssid": "Optional. MAC address of the 2.4 GHz access point closest to the spa (aa:bb:cc:dd:ee:ff). Fill it in if pairing fails without it.",
+          "local_ip": "Sent to the spa so that it can confirm the pairing."
+        }
+      }
+    },
+    "progress": {
+      "pairing": "Sending the Wi-Fi settings to the spa. This can take up to one minute."
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_bssid": "Invalid BSSID, expected format aa:bb:cc:dd:ee:ff.",
+      "pairing_failed": "The spa did not answer. Check the pairing mode, the BSSID and the password, then retry."
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]"
+    }
+  },
+  "entity": {
+    "climate": {
+      "spa": {
+        "name": "Spa"
+      }
+    },
+    "sensor": {
+      "water_temperature": {
+        "name": "Water temperature"
+      },
+      "error": {
+        "name": "Error",
+        "state": {
+          "none": "None",
+          "E81": "E81 - Transmission signal failure",
+          "E90": "E90 - Low or no water flow",
+          "E91": "E91 - Low salt level",
+          "E92": "E92 - High salt level",
+          "E94": "E94 - Water temperature too low",
+          "E95": "E95 - Water temperature too high",
+          "E96": "E96 - Control base system error",
+          "E97": "E97 - Heater dry-fire protection",
+          "E99": "E99 - Damaged temperature sensor",
+          "END": "END - System stopped"
+        }
+      },
+      "filter_timer": {
+        "name": "Filter timer"
+      },
+      "sanitizer_timer": {
+        "name": "Sanitizer timer"
+      },
+      "heater_timer": {
+        "name": "Heater timer"
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Power"
+      },
+      "filter": {
+        "name": "Filter"
+      },
+      "jets": {
+        "name": "Jets"
+      },
+      "bubbles": {
+        "name": "Bubbles"
+      },
+      "sanitizer": {
+        "name": "Sanitizer"
+      }
+    }
+  },
+  "exceptions": {
+    "update_failed": {
+      "message": "Unable to read the spa status: {error}"
+    },
+    "command_failed": {
+      "message": "The spa did not execute the command: {error}"
+    }
+  }
+}
