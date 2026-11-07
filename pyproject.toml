@@ -10,15 +10,15 @@ dependencies = []
 packages = []
 
 [dependency-groups]
-lint = ["prek"]
+lint = ["prek>=0.5.9"]
 dev = [
   "espspapy==1.1.0",
-  "homeassistant",
+  "homeassistant>=2026.10.4",
   {include-group = "lint"},
   {include-group = "test"},
 ]
 test = [
-  "pytest-homeassistant-custom-component",
+  "pytest-homeassistant-custom-component>=0.13.375",
 ]
 
 [tool.uv]

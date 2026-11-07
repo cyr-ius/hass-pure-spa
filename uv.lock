@@ -1236,12 +1236,12 @@ test = [
 [package.metadata.requires-dev]
 dev = [
     { name = "espspapy", specifier = "==1.1.0" },
-    { name = "homeassistant" },
-    { name = "prek" },
-    { name = "pytest-homeassistant-custom-component" },
+    { name = "homeassistant", specifier = ">=2026.10.4" },
+    { name = "prek", specifier = ">=0.5.9" },
+    { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.375" },
 ]
-lint = [{ name = "prek" }]
-test = [{ name = "pytest-homeassistant-custom-component" }]
+lint = [{ name = "prek", specifier = ">=0.5.9" }]
+test = [{ name = "pytest-homeassistant-custom-component", specifier = ">=0.13.375" }]
 
 [[package]]
 name = "home-assistant-bluetooth"
