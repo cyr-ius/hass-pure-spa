@@ -1,28 +1,28 @@
 ---
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.2
+    rev: c0f278f1254ccc8fb09676bcdb8d847e7db493e5 # frozen: v0.17.4
     hooks:
       - id: ruff-check
       - id: ruff-format
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: 57b21406f092110c18776e39b0bda50d37c945c8 # frozen: v2.4.3
     hooks:
       - id: codespell
         additional_dependencies: [tomli]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
     hooks:
       - id: check-executables-have-shebangs
         stages: [manual]
       - id: check-json
         exclude: (.vscode|.devcontainer)
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530 # frozen: v1.38.0
     hooks:
       - id: yamllint
         exclude: (.github|.vscode|.devcontainer)
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.7.1
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: 331f33fa4dfbcbca7c3da3620c137fde0faab273 # frozen: v3.9.10
     hooks:
       - id: prettier
