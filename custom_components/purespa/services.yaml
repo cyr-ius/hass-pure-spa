@@ -1,0 +1,47 @@
+set_timer:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: purespa
+    device:
+      required: true
+      selector:
+        select:
+          translation_key: timer_device
+          options:
+            - filter
+            - heater
+            - sanitizer
+    hours:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 48
+          unit_of_measurement: h
+    delay:
+      selector:
+        duration:
+    temperature:
+      selector:
+        number:
+          min: 10
+          max: 104
+clear_timer:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: purespa
+    device:
+      required: true
+      selector:
+        select:
+          translation_key: timer_device
+          options:
+            - filter
+            - heater
+            - sanitizer

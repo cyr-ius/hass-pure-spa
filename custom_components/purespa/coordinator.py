@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from collections.abc import Awaitable
+from datetime import datetime, timedelta
 
 from espspapy import Device, Spa, SpaException, SpaStatus
 from homeassistant.config_entries import ConfigEntry
@@ -50,11 +51,11 @@ class PureSpaCoordinator(DataUpdateCoordinator[SpaStatus]):
         """Keep the TCP connection alive."""
         await self.client.async_heartbeat()
 
-    async def async_set_device(self, device: Device, on: bool) -> None:
-        """Switch a device on or off."""
+    async def _async_command(self, command: Awaitable[SpaStatus]) -> None:
+        """Run a command and publish the status it returns."""
         try:
-            status = await self.client.async_set_device(device, on)
-        except SpaException as err:
+            status = await command
+        except (SpaException, ValueError) as err:
             raise HomeAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
@@ -62,14 +63,30 @@ class PureSpaCoordinator(DataUpdateCoordinator[SpaStatus]):
             ) from err
         self.async_set_updated_data(status)
 
+    async def async_set_device(self, device: Device, on: bool) -> None:
+        """Switch a device on or off."""
+        await self._async_command(self.client.async_set_device(device, on))
+
     async def async_set_temperature(self, value: int) -> None:
         """Set the target temperature."""
-        try:
-            status = await self.client.async_set_temperature(value)
-        except SpaException as err:
-            raise HomeAssistantError(
-                translation_domain=DOMAIN,
-                translation_key="command_failed",
-                translation_placeholders={"error": str(err)},
-            ) from err
-        self.async_set_updated_data(status)
+        await self._async_command(self.client.async_set_temperature(value))
+
+    async def async_set_timer(
+        self,
+        device: Device,
+        hours: int,
+        delay: timedelta,
+        temperature: int | None = None,
+    ) -> None:
+        """Run the filter, heater or sanitizer for some hours, now or later."""
+        if device is Device.HEATER:
+            command = self.client.async_set_heater_timer(hours, delay, temperature)
+        elif device is Device.FILTER:
+            command = self.client.async_set_filter_timer(hours, delay)
+        else:
+            command = self.client.async_set_sanitizer_timer(hours, delay)
+        await self._async_command(command)
+
+    async def async_clear_timer(self, device: Device) -> None:
+        """Clear the timers of the filter, heater or sanitizer."""
+        await self._async_command(self.client.async_clear_timer(device))

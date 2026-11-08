@@ -81,13 +81,40 @@
         }
       },
       "filter_timer": {
-        "name": "Minuterie de filtration"
+        "name": "Minuterie de filtration",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Début programmé"
+          },
+          "scheduled_end": {
+            "name": "Fin programmée"
+          }
+        }
       },
       "sanitizer_timer": {
-        "name": "Minuterie de désinfection"
+        "name": "Minuterie de désinfection",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Début programmé"
+          },
+          "scheduled_end": {
+            "name": "Fin programmée"
+          }
+        }
       },
       "heater_timer": {
-        "name": "Minuterie de chauffage"
+        "name": "Minuterie de chauffage",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Début programmé"
+          },
+          "scheduled_end": {
+            "name": "Fin programmée"
+          }
+        }
+      },
+      "heater_delay": {
+        "name": "Démarrage différé du chauffage"
       }
     },
     "switch": {
@@ -114,6 +141,66 @@
     },
     "command_failed": {
       "message": "Le spa n'a pas exécuté la commande : {error}"
+    },
+    "entry_not_found": {
+      "message": "Aucune entrée Pure spa avec l'ID {entry_id}."
+    },
+    "entry_not_loaded": {
+      "message": "L'entrée Pure spa {entry_id} n'est pas chargée."
+    },
+    "temperature_heater_only": {
+      "message": "Une température ne peut être réglée que pour le chauffage."
+    }
+  },
+  "selector": {
+    "timer_device": {
+      "options": {
+        "filter": "Filtration",
+        "heater": "Chauffage",
+        "sanitizer": "Désinfection"
+      }
+    }
+  },
+  "services": {
+    "set_timer": {
+      "name": "Programmer une minuterie",
+      "description": "Fait fonctionner la filtration, le chauffage ou la désinfection pendant quelques heures, maintenant ou après un délai. Remplace la minuterie précédente du même appareil. Le spa n'indique pas la minuterie avant son démarrage.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Spa",
+          "description": "Le spa à piloter."
+        },
+        "device": {
+          "name": "Appareil",
+          "description": "Appareil à faire fonctionner."
+        },
+        "hours": {
+          "name": "Durée",
+          "description": "Durée de fonctionnement, en heures (1 à 48)."
+        },
+        "delay": {
+          "name": "Délai",
+          "description": "Temps avant le démarrage. Démarre tout de suite si vide."
+        },
+        "temperature": {
+          "name": "Température",
+          "description": "Chauffage uniquement : température cible, dans l'unité du spa. La consigne actuelle si vide."
+        }
+      }
+    },
+    "clear_timer": {
+      "name": "Annuler une minuterie",
+      "description": "Annule la minuterie de la filtration, du chauffage ou de la désinfection. Un appareil en marche s'arrête.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Spa",
+          "description": "Le spa à piloter."
+        },
+        "device": {
+          "name": "Appareil",
+          "description": "Appareil dont la minuterie est annulée."
+        }
+      }
     }
   }
 }

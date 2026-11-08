@@ -3,10 +3,21 @@
 from __future__ import annotations
 
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.typing import ConfigType
 
-from .const import HEARTBEAT_INTERVAL, PLATFORMS
+from .const import DOMAIN, HEARTBEAT_INTERVAL, PLATFORMS
 from .coordinator import PureSpaConfigEntry, PureSpaCoordinator
+from .services import async_setup_services
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Register the actions of the integration."""
+    async_setup_services(hass)
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: PureSpaConfigEntry) -> bool:

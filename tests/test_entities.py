@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from datetime import UTC, datetime, timedelta
 from unittest.mock import MagicMock
 
 import pytest
-from espspapy import CommandError, Device, SpaStatus
+from espspapy import CommandError, Device, SpaStatus, TimerSlot
 from homeassistant.components.climate import (
     ATTR_HVAC_ACTION,
     ATTR_HVAC_MODE,
@@ -53,7 +54,7 @@ async def test_entities_created(
     entities = er.async_entries_for_config_entry(
         er.async_get(hass), mock_config_entry.entry_id
     )
-    assert len(entities) == 11
+    assert len(entities) == 12
     assert {e.unique_id for e in entities} >= {f"{UID}_climate", f"{UID}_power"}
 
     device = dr.async_get(hass).async_get_device_by_identifier(
@@ -110,6 +111,8 @@ async def test_climate(
     [
         (replace(STATUS, heating=False), HVACMode.HEAT, HVACAction.IDLE),
         (replace(STATUS, heating=False, heater=False), HVACMode.OFF, HVACAction.OFF),
+        # Water at the target: the spa may heat or not.
+        (replace(STATUS, heating=None), HVACMode.HEAT, None),
     ],
 )
 async def test_climate_hvac_action(
@@ -117,13 +120,13 @@ async def test_climate_hvac_action(
     mock_config_entry: MockConfigEntry,
     mock_spa: MagicMock,
     mode: HVACMode,
-    action: HVACAction,
+    action: HVACAction | None,
 ) -> None:
     """Test the heater activity."""
     await setup_integration(hass, mock_config_entry)
     state = hass.states.get(CLIMATE)
     assert state.state == mode
-    assert state.attributes[ATTR_HVAC_ACTION] == action
+    assert state.attributes.get(ATTR_HVAC_ACTION) == action
 
 
 @pytest.mark.parametrize(
@@ -166,6 +169,29 @@ async def test_sensors(
     assert water.attributes[ATTR_UNIT_OF_MEASUREMENT] == UnitOfTemperature.CELSIUS
     assert hass.states.get("sensor.pure_spa_error").state == "none"
     assert float(hass.states.get("sensor.pure_spa_filter_timer").state) == 12
+    assert hass.states.get("sensor.pure_spa_heater_delayed_start").state == "unknown"
+    heater = hass.states.get("sensor.pure_spa_heater_timer")
+    assert heater.attributes["scheduled_start"] is None
+
+
+@pytest.mark.parametrize("status", [replace(STATUS, heater_delay_hours=3.0)])
+async def test_scheduled_timer_attributes(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry, mock_spa: MagicMock
+) -> None:
+    """Test the delayed start and the timers set from Home Assistant."""
+    start = datetime(2026, 11, 9, 7, 0, tzinfo=UTC)
+    later = TimerSlot(start + timedelta(hours=12), 2)
+    mock_spa.scheduled_timers = {Device.HEATER: (later, TimerSlot(start, 3, 38))}
+    await setup_integration(hass, mock_config_entry)
+
+    assert float(hass.states.get("sensor.pure_spa_heater_delayed_start").state) == 3
+    heater = hass.states.get("sensor.pure_spa_heater_timer")
+    assert heater.attributes["scheduled_start"] == start
+    assert heater.attributes["scheduled_end"] == start + timedelta(hours=3)
+    assert (
+        hass.states.get("sensor.pure_spa_filter_timer").attributes["scheduled_start"]
+        is None
+    )
 
 
 async def test_switches(
