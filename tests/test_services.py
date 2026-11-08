@@ -45,9 +45,7 @@ async def test_set_heater_timer(
             ATTR_TEMPERATURE: 38,
         },
     )
-    mock_spa.async_set_heater_timer.assert_awaited_once_with(
-        3, timedelta(hours=2), 38
-    )
+    mock_spa.async_set_heater_timer.assert_awaited_once_with(3, timedelta(hours=2), 38)
 
 
 @pytest.mark.parametrize(
