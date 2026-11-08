@@ -71,6 +71,10 @@ class PureSpaCoordinator(DataUpdateCoordinator[SpaStatus]):
         """Set the target temperature."""
         await self._async_command(self.client.async_set_temperature(value))
 
+    async def async_set_unit(self, fahrenheit: bool) -> None:
+        """Switch the spa to °F or °C, keeping the target temperature."""
+        await self._async_command(self.client.async_set_unit(fahrenheit))
+
     async def async_set_timer(
         self,
         device: Device,

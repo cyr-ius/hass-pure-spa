@@ -60,6 +60,15 @@
         "name": "Spa"
       }
     },
+    "select": {
+      "temperature_unit": {
+        "name": "Unité de température",
+        "state": {
+          "celsius": "Celsius (°C)",
+          "fahrenheit": "Fahrenheit (°F)"
+        }
+      }
+    },
     "sensor": {
       "water_temperature": {
         "name": "Température de l'eau"

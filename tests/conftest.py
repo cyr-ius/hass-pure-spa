@@ -75,6 +75,10 @@ def mock_spa(status: SpaStatus) -> Generator[MagicMock]:
         async def _set_temperature(value):
             return replace(status, target_temperature=value)
 
+        async def _set_unit(fahrenheit):
+            return replace(status, fahrenheit=fahrenheit)
+
+        client.async_set_unit = AsyncMock(side_effect=_set_unit)
         client.async_set_device = AsyncMock(side_effect=_set_device)
         client.async_set_temperature = AsyncMock(side_effect=_set_temperature)
         client.async_set_filter_timer = AsyncMock(return_value=status)
