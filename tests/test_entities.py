@@ -21,6 +21,13 @@ from homeassistant.components.climate import (
 from homeassistant.components.climate import (
     DOMAIN as CLIMATE_DOMAIN,
 )
+from homeassistant.components.select import (
+    ATTR_OPTION,
+    SERVICE_SELECT_OPTION,
+)
+from homeassistant.components.select import (
+    DOMAIN as SELECT_DOMAIN,
+)
 from homeassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from homeassistant.const import (
     ATTR_ENTITY_ID,
@@ -54,7 +61,7 @@ async def test_entities_created(
     entities = er.async_entries_for_config_entry(
         er.async_get(hass), mock_config_entry.entry_id
     )
-    assert len(entities) == 12
+    assert len(entities) == 13
     assert {e.unique_id for e in entities} >= {f"{UID}_climate", f"{UID}_power"}
 
     device = dr.async_get(hass).async_get_device_by_identifier(
@@ -244,3 +251,21 @@ async def test_command_errors(
             {ATTR_ENTITY_ID: CLIMATE, ATTR_TEMPERATURE: 36},
             blocking=True,
         )
+
+
+async def test_temperature_unit(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry, mock_spa: MagicMock
+) -> None:
+    """Test the temperature unit select."""
+    await setup_integration(hass, mock_config_entry)
+    entity_id = "select.pure_spa_temperature_unit"
+    assert hass.states.get(entity_id).state == "celsius"
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SERVICE_SELECT_OPTION,
+        {ATTR_ENTITY_ID: entity_id, ATTR_OPTION: "fahrenheit"},
+        blocking=True,
+    )
+    mock_spa.async_set_unit.assert_awaited_once_with(True)
+    assert hass.states.get(entity_id).state == "fahrenheit"

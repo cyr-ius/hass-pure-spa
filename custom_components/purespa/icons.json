@@ -1,5 +1,14 @@
 {
   "entity": {
+    "select": {
+      "temperature_unit": {
+        "default": "mdi:thermometer",
+        "state": {
+          "celsius": "mdi:temperature-celsius",
+          "fahrenheit": "mdi:temperature-fahrenheit"
+        }
+      }
+    },
     "sensor": {
       "error": {
         "default": "mdi:alert-circle-outline"

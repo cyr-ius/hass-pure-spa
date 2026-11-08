@@ -18,6 +18,8 @@ Once installed, your spa appears in Home Assistant and you can:
 
 - **Heat the water**: turn the heater on or off and set the target
   temperature, while watching the current water temperature.
+- **Choose the unit**: show the temperatures in °C or °F on the spa control
+  panel. The target temperature stays the same.
 - **Turn on and off**: the spa, the filtration, the bubbles, the jets and the
   sanitizer.
 - **Monitor**: the water temperature, the remaining time of the filtration,

@@ -8,7 +8,7 @@ from homeassistant.const import Platform
 
 DOMAIN = "purespa"
 
-PLATFORMS = [Platform.CLIMATE, Platform.SENSOR, Platform.SWITCH]
+PLATFORMS = [Platform.CLIMATE, Platform.SELECT, Platform.SENSOR, Platform.SWITCH]
 
 CONF_UID = "uid"
 CONF_SSID = "ssid"

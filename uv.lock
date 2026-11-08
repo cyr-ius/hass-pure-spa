@@ -951,11 +951,11 @@ wheels = [
 
 [[package]]
 name = "espspapy"
-version = "2.0.0"
+version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/31/45/0c4cfd3a05a18e45e58b99f3196cfba73574e00efa32dd2bc1a4a52499e6/espspapy-2.0.0.tar.gz", hash = "sha256:34f93c87a84c0bb44c1683a0db437bc1933b38ad52c1d3bb5f098270fb99abf6", size = 81283, upload-time = "2026-11-08T21:10:09.201Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ec/24/90ee8246d981877df2eaeb1b4bd63ead08a63b251e5654679f622733ad2b/espspapy-2.1.0.tar.gz", hash = "sha256:f37113d915661e420f81198281f3f26c856c00b5550f92e534bd86362c2f11e4", size = 81095, upload-time = "2026-11-08T22:17:32.596Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f4/cf/739a2b22774355fe8f34e7dca3cdf71dade615576be78280b346825bbe71/espspapy-2.0.0-py3-none-any.whl", hash = "sha256:301e367384f87c6875a8e27ba1aa5b4877fa861bbe076490d65803ecf4a218fd", size = 42313, upload-time = "2026-11-08T21:10:07.869Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/bc/200f498a570517305e20bf51c11889b38c93560a05476dc982f9077261bf/espspapy-2.1.0-py3-none-any.whl", hash = "sha256:8c44dd2f8125680181b7882d28d47e777abb7f661ab9df2f8ac02a01069ab2f8", size = 43191, upload-time = "2026-11-08T22:17:31.184Z" },
 ]
 
 [[package]]
@@ -1235,7 +1235,7 @@ test = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "espspapy", specifier = "==2.0.0" },
+    { name = "espspapy", specifier = "==2.1.0" },
     { name = "homeassistant", specifier = ">=2026.10.4" },
     { name = "prek", specifier = ">=0.5.9" },
     { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.375" },
