@@ -33,6 +33,7 @@ STATUS = SpaStatus(
     filter_hours=12.0,
     sanitizer_hours=3.0,
     heater_hours=5.0,
+    heater_delay_hours=None,
     raw="",
 )
 
@@ -76,6 +77,11 @@ def mock_spa(status: SpaStatus) -> Generator[MagicMock]:
 
         client.async_set_device = AsyncMock(side_effect=_set_device)
         client.async_set_temperature = AsyncMock(side_effect=_set_temperature)
+        client.async_set_filter_timer = AsyncMock(return_value=status)
+        client.async_set_heater_timer = AsyncMock(return_value=status)
+        client.async_set_sanitizer_timer = AsyncMock(return_value=status)
+        client.async_clear_timer = AsyncMock(return_value=status)
+        client.scheduled_timers = {}
         yield client
 
 

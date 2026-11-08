@@ -98,12 +98,19 @@ class PureSpaClimate(PureSpaEntity, ClimateEntity):
         return HVACMode.HEAT if self.coordinator.data.heater else HVACMode.OFF
 
     @property
-    def hvac_action(self) -> HVACAction:
-        """Return the heater activity."""
+    def hvac_action(self) -> HVACAction | None:
+        """Return the heater activity, ``None`` when unknown.
+
+        The spa does not report whether the water is being heated: with the
+        water at the target temperature, it may heat (for up to about an hour)
+        or not, so the activity is unknown.
+        """
         status = self.coordinator.data
-        if status.heating:
-            return HVACAction.HEATING
-        return HVACAction.IDLE if status.heater else HVACAction.OFF
+        if not status.heater:
+            return HVACAction.OFF
+        if status.heating is None:
+            return None
+        return HVACAction.HEATING if status.heating else HVACAction.IDLE
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
         """Set the target temperature."""

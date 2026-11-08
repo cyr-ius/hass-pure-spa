@@ -12,6 +12,9 @@
       },
       "heater_timer": {
         "default": "mdi:timer-outline"
+      },
+      "heater_delay": {
+        "default": "mdi:timer-sand"
       }
     },
     "switch": {
@@ -30,6 +33,14 @@
       "sanitizer": {
         "default": "mdi:shield-check-outline"
       }
+    }
+  },
+  "services": {
+    "set_timer": {
+      "service": "mdi:timer-play-outline"
+    },
+    "clear_timer": {
+      "service": "mdi:timer-off-outline"
     }
   }
 }

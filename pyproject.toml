@@ -12,7 +12,7 @@ packages = []
 [dependency-groups]
 lint = ["prek>=0.5.9"]
 dev = [
-  "espspapy==1.1.0",
+  "espspapy==2.0.0",
   "homeassistant>=2026.10.4",
   {include-group = "lint"},
   {include-group = "test"},

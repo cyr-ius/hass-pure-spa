@@ -81,13 +81,40 @@
         }
       },
       "filter_timer": {
-        "name": "Filter timer"
+        "name": "Filter timer",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Scheduled start"
+          },
+          "scheduled_end": {
+            "name": "Scheduled end"
+          }
+        }
       },
       "sanitizer_timer": {
-        "name": "Sanitizer timer"
+        "name": "Sanitizer timer",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Scheduled start"
+          },
+          "scheduled_end": {
+            "name": "Scheduled end"
+          }
+        }
       },
       "heater_timer": {
-        "name": "Heater timer"
+        "name": "Heater timer",
+        "state_attributes": {
+          "scheduled_start": {
+            "name": "Scheduled start"
+          },
+          "scheduled_end": {
+            "name": "Scheduled end"
+          }
+        }
+      },
+      "heater_delay": {
+        "name": "Heater delayed start"
       }
     },
     "switch": {
@@ -114,6 +141,66 @@
     },
     "command_failed": {
       "message": "The spa did not execute the command: {error}"
+    },
+    "entry_not_found": {
+      "message": "No Pure spa entry with ID {entry_id}."
+    },
+    "entry_not_loaded": {
+      "message": "The Pure spa entry {entry_id} is not loaded."
+    },
+    "temperature_heater_only": {
+      "message": "A temperature can only be set for the heater."
+    }
+  },
+  "selector": {
+    "timer_device": {
+      "options": {
+        "filter": "Filter",
+        "heater": "Heater",
+        "sanitizer": "Sanitizer"
+      }
+    }
+  },
+  "services": {
+    "set_timer": {
+      "name": "Set timer",
+      "description": "Runs the filter, the heater or the sanitizer for some hours, now or after a delay. It replaces the previous timer of the same device. The spa does not report the timer before it starts.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Spa",
+          "description": "The spa to control."
+        },
+        "device": {
+          "name": "Device",
+          "description": "Device to run."
+        },
+        "hours": {
+          "name": "Duration",
+          "description": "How long the device runs, in hours (1 to 48)."
+        },
+        "delay": {
+          "name": "Delay",
+          "description": "Time before the device starts. Starts now when empty."
+        },
+        "temperature": {
+          "name": "Temperature",
+          "description": "Heater only: target temperature, in the unit of the spa. The current target when empty."
+        }
+      }
+    },
+    "clear_timer": {
+      "name": "Clear timer",
+      "description": "Clears the timer of the filter, the heater or the sanitizer. A running device stops.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Spa",
+          "description": "The spa to control."
+        },
+        "device": {
+          "name": "Device",
+          "description": "Device whose timer is cleared."
+        }
+      }
     }
   }
 }

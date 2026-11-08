@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
-from espspapy import SpaStatus
+from espspapy import Device, SpaStatus
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -42,6 +43,8 @@ class PureSpaSensorEntityDescription(SensorEntityDescription):
     """Pure spa sensor description."""
 
     value_fn: Callable[[SpaStatus], StateType]
+    # Device whose timers set from Home Assistant are shown as attributes.
+    timer_device: Device | None = None
 
 
 SENSORS: tuple[PureSpaSensorEntityDescription, ...] = (
@@ -63,18 +66,27 @@ SENSORS: tuple[PureSpaSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.HOURS,
         value_fn=lambda status: status.filter_hours,
+        timer_device=Device.FILTER,
     ),
     PureSpaSensorEntityDescription(
         key="sanitizer_timer",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.HOURS,
         value_fn=lambda status: status.sanitizer_hours,
+        timer_device=Device.SANITIZER,
     ),
     PureSpaSensorEntityDescription(
         key="heater_timer",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.HOURS,
         value_fn=lambda status: status.heater_hours,
+        timer_device=Device.HEATER,
+    ),
+    PureSpaSensorEntityDescription(
+        key="heater_delay",
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        value_fn=lambda status: status.heater_delay_hours,
     ),
 )
 
@@ -118,3 +130,19 @@ class PureSpaSensor(PureSpaEntity, SensorEntity):
     def native_value(self) -> StateType:
         """Return the sensor value."""
         return self.entity_description.value_fn(self.coordinator.data)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return the next timer set from Home Assistant, not reported by the spa.
+
+        The spa does not report a timer before it starts: the client remembers
+        the ones it sent, until Home Assistant restarts.
+        """
+        device = self.entity_description.timer_device
+        if device is None:
+            return None
+        slots = self.coordinator.client.scheduled_timers.get(device, ())
+        if not slots:
+            return {"scheduled_start": None, "scheduled_end": None}
+        slot = min(slots, key=lambda slot: slot.start)
+        return {"scheduled_start": slot.start, "scheduled_end": slot.end}

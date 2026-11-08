@@ -21,12 +21,44 @@ Once installed, your spa appears in Home Assistant and you can:
 - **Turn on and off**: the spa, the filtration, the bubbles, the jets and the
   sanitizer.
 - **Monitor**: the water temperature, the remaining time of the filtration,
-  heating and sanitizer timers, and any error shown on the spa (low water flow,
-  temperature too high, etc.), with a clear description.
+  heating and sanitizer timers, the delayed heater start set on the spa, and
+  any error shown on the spa (low water flow, temperature too high, etc.), with
+  a clear description.
+- **Schedule**: run the filtration, the heater or the sanitizer for 1 to 48
+  hours, now or after a delay, with the **Set timer** action, and cancel it
+  with **Clear timer**. The heater can use its own target temperature.
 
 Everything can be used in your dashboards, automations and scripts, for example
 to start heating a few hours before you get in, or to be notified when the spa
 reports an error.
+
+### Timers
+
+```yaml
+action: purespa.set_timer
+data:
+  config_entry_id: <your spa>
+  device: heater
+  hours: 3
+  delay:
+    hours: 2
+  temperature: 38
+```
+
+A new timer replaces the previous one of the same device.
+
+Good to know, because of what the spa reports:
+
+- The spa does not report a timer set from Home Assistant before it starts.
+  Home Assistant remembers it and shows it in the `scheduled_start` and
+  `scheduled_end` attributes of the timer sensor, until it restarts.
+- The control panel only offers some durations (filtration 2, 4 or 6 hours,
+  sanitizer 3, 5 or 8 hours). The actions accept any duration from 1 to 48
+  hours, but other durations were not tried on a spa yet.
+- During the last hour of a timer or of a delayed start, the spa does not
+  report the remaining time: the sensor is unknown.
+- The heater activity is unknown when the water is at the target temperature:
+  the spa may still heat, for up to about an hour, or not.
 
 ## Pairing your spa
 
